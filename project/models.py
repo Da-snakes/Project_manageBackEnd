@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
-choice = (
+STATUS_CHOICES = (
     ('1','NEW'), ('2', 'OPEN'), ('3','RESOLVED'), ('4','COLSED'),('5','IN PROGRESS'),
 )
 
@@ -28,6 +28,7 @@ class Person(models.Model):
 
 class Project (models.Model):
     name = models.CharField(max_length=30)
+    status = models.CharField(choices=STATUS_CHOICES, default='1', max_length=30)
     description = models.CharField(max_length=100)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
@@ -36,7 +37,7 @@ class Project (models.Model):
 
 class Task(models.Model):
     name = models.CharField(max_length=30)
-    status = models.CharField(choices=choice,default='1',max_length=333)
+    status = models.CharField(choices=STATUS_CHOICES, default='1',max_length=333)
     description = models.CharField(max_length=30)
     date = models.DateField(auto_now_add=True)
     dead_line = models.DateField(auto_now_add=True)
@@ -47,7 +48,7 @@ class Task(models.Model):
 
 class Widget(models.Model):
     name = models.CharField(max_length=30)
-    tache = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
