@@ -8,5 +8,3 @@ admin.site.register(Person)
 admin.site.register(Project)
 admin.site.register(Task)
 admin.site.register(Widget)
-
-

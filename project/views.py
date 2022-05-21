@@ -1,14 +1,29 @@
-from django.shortcuts import render, HttpResponse
-
 from .models import *
+from rest_framework.generics import ListAPIView
+from .serializers import *
 
-def person(request):
-    return HttpResponse(f'<h1>done person</h1>')
+class PersonAPIView(ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
 
-def tache(request):
-    return HttpResponse("<h1>done tache</h1>")
+class ProjectAPIView(ListAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
 
-def login(request):
-    person = Person.objects.all()
-    return HttpResponse(person)
+class TaskAPIView(ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
+class PortfolioAPIView(ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PortfolioSerializer
+
+class WidgetAPIView(ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = WidgetSerializer
+
+class PositionAPIView(ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = WidgetSerializer
+
+    

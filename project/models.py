@@ -1,5 +1,8 @@
 from django.db import models
 
+# Create your models here.
+from django.db import models
+
 choice = (
     ('1','NEW'), ('2', 'OPEN'), ('3','RESOLVED'), ('4','COLSED'),('5','IN PROGRESS'),
 )
