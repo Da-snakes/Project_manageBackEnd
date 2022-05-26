@@ -2,65 +2,40 @@ from rest_framework import serializers
 
 from .models import *
 
-class PositionSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-
+class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = ['id', 'name',]
+        fields = ('id', 'name',)
 
 class PersonSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-    position_id = serializers.CharField(source='position.id')
-
+    position = PositionSerializer(many=True)
     class Meta:
         model = Person
-        fields = '__all__'
+        fields = ('id', 'first_name', 'last_name', 'email', 'password', 'position',)
 
 
-class PortfolioSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-
+class PortfolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = '__all__'
+        fields = ('id', 'name',)
 
-class ProjectSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-    description = serializers.CharField(required=True)
-    status = serializers.ChoiceField(required=True, choices=STATUS_CHOICES)
-    portfolio_id = serializers.IntegerField(source='portfolio.id')
-    
+class ProjectSerializer(serializers.ModelSerializer):
+    portfolio = PortfolioSerializer(many=True)
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ('id', 'name', 'description', 'status' 'portfolio',)
 
-class TaskSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-    description = serializers.CharField(required=True)
-    date = serializers.DateField(required=True)
-    dead_line = serializers.DateField(required=True)
-    status = serializers.ChoiceField(required=True, choices=STATUS_CHOICES)
-    project_id = serializers.IntegerField(source='project.id')
+class TaskSerializer(serializers.ModelSerializer):
+    person = PersonSerializer(many=True)
+    project = ProjectSerializer(many=True)
 
     class Meta:
-        model = Position
-        fields = '__all__'
+        model = Task
+        fields = ('id', 'name', 'description', 'date', 'dead_line', 'status', 'project', 'person', )
 
-class WidgetSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
-    task_id = serializers.IntegerField(source='task.id')
-
+class WidgetSerializer(serializers.ModelSerializer):
+    task = TaskSerializer(many=True)
     class Meta:
         model = Position
-        fields = '__all__'
+        fields = ('id', 'name', 'task',)
    

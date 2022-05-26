@@ -30,7 +30,6 @@ class Project (models.Model):
     name = models.CharField(max_length=30)
     status = models.CharField(choices=STATUS_CHOICES, default='1', max_length=30)
     description = models.CharField(max_length=100)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     def __str__(self):
         return self.name 
@@ -40,7 +39,7 @@ class Task(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, default='1',max_length=333)
     description = models.CharField(max_length=30)
     date = models.DateField(auto_now_add=True)
-    dead_line = models.DateField(auto_now_add=True)
+    dead_line = models.DateField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     def __str__(self):
